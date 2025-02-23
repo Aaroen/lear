@@ -20,7 +20,7 @@ class Solution:
 
 solution = Solution()
 
-haystack = "sadbutsad"
+haystack = "b5adbutsad"
 
 needle = "sad"
 
