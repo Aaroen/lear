@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Ling" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Ling" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="lear" project-jdk-type="Python SDK" />
 </project>
