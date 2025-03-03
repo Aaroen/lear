@@ -45,3 +45,41 @@
 
 # print(result)
 
+class Solution:
+    def compute_prefix_function(self, pattern):
+        m = len(pattern)
+        pi = [0] * m
+        length = 0
+        for i in range(1, m):
+            while length > 0 and pattern[i] != pattern[length]:
+                length = pi[length - 1]
+            if pattern[i] == pattern[length]:
+                length += 1
+            pi[i] = length
+        return pi
+
+    def strStr(self, haystack: str, needle: str) -> int:
+        if not needle:
+            return 0
+        pi = self.compute_prefix_function(needle)
+        n = len(haystack)
+        m = len(needle)
+        j = 0
+        for i in range(n):
+            while j > 0 and haystack[i] != needle[j]:
+                j = pi[j - 1]
+            if haystack[i] == needle[j]:
+                j += 1
+            if j == m:
+                return i - m + 1
+        return -1
+
+solution = Solution()
+
+haystack = "utsad"
+
+needle = "sad"
+
+result = solution.strStr(haystack, needle)
+
+print(result)
