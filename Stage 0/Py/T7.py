@@ -20,3 +20,20 @@ from typing import List
 # print(solution.plusOne([1,2,3]))   # 输出: [1,2,4]
 # print(solution.plusOne([4,3,2,1])) # 输出: [4,3,2,2]
 # print(solution.plusOne([9]))       # 输出: [1,0]
+
+
+
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        n = len(digits)
+        for i in range(n-1,-1,-1):
+            digits[i] +=1
+            if digits[i] <= 10:
+                return digits
+            else:
+                digits[i] = 0
+                
+solution = Solution()
+print(solution.plusOne([1,2,3]))   # 输出: [1,2,4]
+print(solution.plusOne([4,3,2,1])) # 输出: [4,3,2,2]
+print(solution.plusOne([9]))       # 输出: [1,0]
