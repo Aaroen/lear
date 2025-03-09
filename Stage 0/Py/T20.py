@@ -4,4 +4,3 @@ class Solution(object):
         :type matrix: List[List[int]]
         :rtype: List[int]
         """
-        
