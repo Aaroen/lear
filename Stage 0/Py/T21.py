@@ -8,9 +8,8 @@ class Solution(object):
             return  # 如果为空，直接返回 (不做任何修改)
         m = len(matrix)
         n = len(matrix[0])
-        m = len(matrix)
-        n = len(matrix[0])
         place_0 = []
+        
         # 记录0的位置
         for i, nums_list in enumerate(matrix):
             for j, num in enumerate(nums_list):
