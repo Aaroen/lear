@@ -39,3 +39,11 @@ class Solution:
             p -= 1
         # 此时 nums1 就已经合并了 nums2，并且保持了非递减顺序
         # （ps:该while循环用于处理sum2数组后处理而未被合并入sum1数组的情况；sum1数组后处理时无需再进行操作：因为全部数据位置已经合并正确）
+
+# 示例1
+nums1 = [1,2,3,0,0,0]
+m = 3
+nums2 = [2,5,6]
+n = 3
+Solution().merge(nums1, m, nums2, n)
+print("示例1合并结果:", nums1)
