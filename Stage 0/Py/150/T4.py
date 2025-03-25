@@ -16,3 +16,4 @@ class Solution:
             # 因为数组是排序的，如果 nums[fast] > nums[slow-2]，
             # 意味着 nums[fast] 一定比 nums[slow-2] 以及之前的所有 nums[slow-3], nums[slow-4]... 都大或者相等。 
             # 如果相等，因为数组已经排过序，那么 nums[slow-2] 应该是和 nums[fast] 相同的数字，那么可以继续保留。
+            
