@@ -24,3 +24,29 @@ class Solution:
 solution = Solution()
 print(solution.canJump([2,3,1,1,4]))  # 输出：True
 print(solution.canJump([3,2,1,0,4]))  # 输出：False
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class Solution:
+#     def canJump(self, nums: List[int]) -> bool:
+#         n = len(nums)
+#         max = 0
+#         for i in range (n):
+#             if i > max :
+#                 return False
+#             if i + nums[i] > max :
+#                 max = i + nums[i]
+#             if max >= n -  1:
+#                 return True
+
+#         return max >= n - 1
