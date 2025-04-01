@@ -24,3 +24,28 @@ solution = Solution()
 result1 = solution.minSubArrayLen(target1, nums1)
 print(f"输入: target = {target1}, nums = {nums1}")
 print(f"输出: {result1}")
+
+
+
+
+
+
+# class Solution:
+#     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+#         n = len(nums)
+#         left = 0
+#         right = 0
+#         current_sum = 0
+#         min_len = float('inf')
+#         while right < n :
+#             current_sum += nums[right]
+#             while current_sum >= target:
+#                 current_window_len = right - left + 1
+#                 min_len = min(min_len,current_window_len)
+#                 current_sum -= nums[left]
+#                 left +=1
+#             right += 1 
+#         if min_len == float('inf'): 
+#             return 0
+#         else:
+#             return min_len
