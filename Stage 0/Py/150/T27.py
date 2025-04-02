@@ -16,7 +16,7 @@ class Solution:
         if min_length == float('inf'): # 如果 min_length 还是初始值，说明没找到有效子数组
             return 0
         else:
-            return min_length
+            return int(min_length)
 
 target1 = 8
 nums1 = [4, 3, 1, 2, 2, 4]
