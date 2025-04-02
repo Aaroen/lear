@@ -1,3 +1,4 @@
+from typing import List
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
         # 初始化候选多数元素为数组的第一个元素
