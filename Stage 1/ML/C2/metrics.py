@@ -39,7 +39,7 @@ def calculate_metrics(cm):
         'F1': f1
     }
 
-# --- 可选的测试代码 ---
+# --- 测试代码 ---
 if __name__ == '__main__':
     print("--- 测试 calculate_metrics ---")
     # 使用 confusion_matrix.py 中的测试用例结果

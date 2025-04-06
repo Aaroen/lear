@@ -1,7 +1,7 @@
 import numpy as np
 # 使用相对导入，因为它们在同一个目录下
-from .confusion_matrix import confusion_matrix
-from .metrics import calculate_metrics
+from confusion_matrix import confusion_matrix
+from metrics import calculate_metrics
 # from sklearn.base import clone # 如果需要克隆模型
 
 def k_fold_cross_validation(model, X, y, k=5, random_state=None):
@@ -95,7 +95,7 @@ def calculate_average_metrics(all_metrics):
 
     return avg_metrics
 
-# --- 可选的测试代码 ---
+# --- 测试代码 ---
 if __name__ == '__main__':
     print("\n--- 测试 cross_validation ---")
     # 定义一个简单的 DummyClassifier 供测试

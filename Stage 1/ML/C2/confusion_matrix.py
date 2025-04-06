@@ -12,28 +12,38 @@ def confusion_matrix(y_true, y_pred):
         np.array: 2x2 的混淆矩阵 [[TN, FP], [FN, TP]]。
                   行表示真实类别 (0, 1)，列表示预测类别 (0, 1)。
     """
+    #  检查 y_true 和 y_pred 两个列表的长度是否相等。如果不相等，则抛出一个 ValueError 异常，
+    # 并显示错误信息 "输入列表长度必须相同"。 
+    # 这是因为计算混淆矩阵需要真实标签和预测标签一一对应。
     if len(y_true) != len(y_pred):
         raise ValueError("输入列表长度必须相同")
 
+    # 将输入的 y_true 和 y_pred 列表转换为 NumPy 数组。这样做是为了方便后续使用 NumPy 的高效数组操作。
     y_true = np.array(y_true)
     y_pred = np.array(y_pred)
 
-    # 验证标签是否有效 (可选，但推荐)
+    # 验证标签是否有效
     labels = np.unique(np.concatenate((y_true, y_pred)))
     if not np.all(np.isin(labels, [0, 1])):
          print(f"警告: 标签包含非 0/1 值: {labels}. 仅计算 0 和 1 的部分。")
          # 或者可以抛出错误: raise ValueError("标签必须是 0 或 1")
 
+    # 计算混淆矩阵的四个元素:
+    # TN: 真实为 0 且预测为 0 的样本数
+    # FP: 真实为 0 且预测为 1 的样本数
+    # FN: 真实为 1 且预测为 0 的样本数
+    # TP: 真实为 1 且预测为 1 的样本数
     TN = np.sum((y_true == 0) & (y_pred == 0))
     FP = np.sum((y_true == 0) & (y_pred == 1))
     FN = np.sum((y_true == 1) & (y_pred == 0))
     TP = np.sum((y_true == 1) & (y_pred == 1))
 
+    # 创建混淆矩阵
     cm = np.array([[TN, FP], [FN, TP]], dtype=int)
 
     return cm
 
-# --- 可选的测试代码 ---
+# --- 测试代码 ---
 if __name__ == '__main__':
     # 当直接运行此文件时执行
     print("--- 测试 confusion_matrix ---")
