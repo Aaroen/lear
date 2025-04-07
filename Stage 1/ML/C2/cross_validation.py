@@ -1,5 +1,4 @@
 import numpy as np
-# 使用相对导入，因为它们在同一个目录下
 from confusion_matrix import confusion_matrix
 from metrics import calculate_metrics
 # from sklearn.base import clone # 如果需要克隆模型
