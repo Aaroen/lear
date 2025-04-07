@@ -1,6 +1,5 @@
 《动手学深度学习》(Dive into Deep Learning, D2L)的部分实践实现:
 
-
 **整体章节梳理**
 
 1.  **Introduction:** 介绍深度学习背景。
@@ -270,39 +269,6 @@
 
 ---
 
-**实验 8: 微调 (Fine-tuning) 预训练模型 (对应 D2L Ch 11)**
-
-*   **核心目标:** 掌握利用在大数据集上预训练好的模型（如 ImageNet 上的 ResNet 或 NLP 领域的 BERT）来提升在特定小数据集上任务性能的常用且高效的技术。
-*   **所需知识/库:** 实验 1-7 (特别是 CNN/ResNet 或 Transformer 相关知识), PyTorch (`torchvision.models`, `transformers` 库), 特定任务的数据加载和处理知识。
-*   **详细步骤与思路:**
-    1.  **加载预训练模型:**
-        *   **步骤 (CV 示例):** 使用 `torchvision.models` 加载一个预训练的 CNN 模型，例如 `model = torchvision.models.resnet18(pretrained=True)`。
-        *   **步骤 (NLP 示例):** 使用 `transformers` 库加载一个预训练的 Transformer 模型，例如 `model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')`。
-        *   **思路:** 获取已经学习了通用特征（图像的纹理、边缘；语言的语法、语义）的模型权重。
-    2.  **修改模型以适应新任务:**
-        *   **步骤 (CV):** 预训练模型的最后一层通常是针对原任务（如 ImageNet 1000 类分类）的全连接层。需要将其替换为适合新任务输出维度（例如，新任务是 10 类分类）的新全连接层。
-            *   获取原分类器的输入特征数：`num_ftrs = model.fc.in_features` (对于 ResNet)。
-            *   替换分类头：`model.fc = nn.Linear(num_ftrs, num_classes_new_task)`。
-        *   **步骤 (NLP):** 对于 `transformers` 库中的 `ForSequenceClassification` 类模型，通常在加载时指定 `num_labels` 即可自动处理分类头。如果需要更复杂的修改（如添加自定义层），则需要访问模型的内部结构。
-        *   **思路:** 重用模型的主体结构（特征提取器），仅替换或修改与特定任务相关的输出层。
-    3.  **(可选) 冻结部分层参数:**
-        *   **步骤:** 为了防止预训练权重在小数据集上被破坏，或为了加速训练，可以选择冻结模型的部分或大部分层（通常是靠近输入的层）。
-            *   `for param in model.parameters(): param.requires_grad = False` (冻结所有)
-            *   然后解冻需要训练的层，例如新添加的分类头：`for param in model.fc.parameters(): param.requires_grad = True`。
-        *   **思路:** 只更新与新任务最相关的少数几层参数，保留通用的预训练知识。适合目标任务数据量较少的情况。如果数据量充足，可以解冻更多层甚至整个模型进行训练（通常使用较小的学习率）。
-    4.  **准备数据:**
-        *   **步骤:** 加载并预处理你的特定任务数据集。关键在于**预处理方式应尽可能与预训练模型所使用的方式保持一致**（例如，图像归一化的均值和标准差，文本的 Tokenization 方式）。查阅模型文档或来源了解预处理细节。
-        *   **思路:** 确保输入数据符合预训练模型的预期格式和范围。
-    5.  **训练 (微调):**
-        *   **步骤:** 定义损失函数（通常是交叉熵）和优化器。将需要更新的参数传递给优化器（如果冻结了部分层，只传入 `requires_grad=True` 的参数）。
-            *   `optimizer = optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), lr=0.001, momentum=0.9)`。
-        *   **步骤:** 使用**较小的学习率**开始训练。因为预训练模型已经处于一个较好的状态，过大的学习率容易破坏预训练权重。可以尝试不同的学习率策略（如学习率衰减）。
-        *   **步骤:** 运行标准的训练循环。
-    *   **预期结果/验证方法:** 微调后的模型在目标任务上的性能通常远超从零开始训练的模型，尤其是在目标数据集较小的情况下。收敛速度通常也更快。对比微调模型和从零训练模型的测试准确率/损失。
-    *   **关键注意点:** 选择合适的预训练模型（源任务与目标任务的相关性）。数据预处理与预训练模型保持一致。学习率的选择（通常需要更小）。理解何时冻结层以及冻结哪些层。
-
----
-
 **实验 9: RNN/LSTM/GRU (从零理解与框架实现) (对应 D2L Ch 8, 9)**
 
 *   **核心目标:** 理解循环神经网络处理序列数据的原理（隐藏状态传递），掌握 LSTM 和 GRU 门控机制的作用，并能使用框架实现序列模型。
@@ -372,6 +338,39 @@
         *   **思路:** 将 Transformer 的标准构建块实现出来。
 *   **预期结果/验证方法:** 各个组件的输出形状符合预期。理解 Attention 权重如何表示相关性。理解 Transformer 块的内部数据流。
 *   **关键注意点:** 维度匹配（`d_model`, `num_heads`, `d_k`, `d_v`）。Attention Mask 的正确使用（padding mask, look-ahead mask）。Layer Normalization 的位置。
+
+---
+
+**实验 8: 微调 (Fine-tuning) 预训练模型 (对应 D2L Ch 11)**
+
+*   **核心目标:** 掌握利用在大数据集上预训练好的模型（如 ImageNet 上的 ResNet 或 NLP 领域的 BERT）来提升在特定小数据集上任务性能的常用且高效的技术。
+*   **所需知识/库:** 实验 1-7 (特别是 CNN/ResNet 或 Transformer 相关知识), PyTorch (`torchvision.models`, `transformers` 库), 特定任务的数据加载和处理知识。
+*   **详细步骤与思路:**
+    1.  **加载预训练模型:**
+        *   **步骤 (CV 示例):** 使用 `torchvision.models` 加载一个预训练的 CNN 模型，例如 `model = torchvision.models.resnet18(pretrained=True)`。
+        *   **步骤 (NLP 示例):** 使用 `transformers` 库加载一个预训练的 Transformer 模型，例如 `model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')`。
+        *   **思路:** 获取已经学习了通用特征（图像的纹理、边缘；语言的语法、语义）的模型权重。
+    2.  **修改模型以适应新任务:**
+        *   **步骤 (CV):** 预训练模型的最后一层通常是针对原任务（如 ImageNet 1000 类分类）的全连接层。需要将其替换为适合新任务输出维度（例如，新任务是 10 类分类）的新全连接层。
+            *   获取原分类器的输入特征数：`num_ftrs = model.fc.in_features` (对于 ResNet)。
+            *   替换分类头：`model.fc = nn.Linear(num_ftrs, num_classes_new_task)`。
+        *   **步骤 (NLP):** 对于 `transformers` 库中的 `ForSequenceClassification` 类模型，通常在加载时指定 `num_labels` 即可自动处理分类头。如果需要更复杂的修改（如添加自定义层），则需要访问模型的内部结构。
+        *   **思路:** 重用模型的主体结构（特征提取器），仅替换或修改与特定任务相关的输出层。
+    3.  **(可选) 冻结部分层参数:**
+        *   **步骤:** 为了防止预训练权重在小数据集上被破坏，或为了加速训练，可以选择冻结模型的部分或大部分层（通常是靠近输入的层）。
+            *   `for param in model.parameters(): param.requires_grad = False` (冻结所有)
+            *   然后解冻需要训练的层，例如新添加的分类头：`for param in model.fc.parameters(): param.requires_grad = True`。
+        *   **思路:** 只更新与新任务最相关的少数几层参数，保留通用的预训练知识。适合目标任务数据量较少的情况。如果数据量充足，可以解冻更多层甚至整个模型进行训练（通常使用较小的学习率）。
+    4.  **准备数据:**
+        *   **步骤:** 加载并预处理你的特定任务数据集。关键在于**预处理方式应尽可能与预训练模型所使用的方式保持一致**（例如，图像归一化的均值和标准差，文本的 Tokenization 方式）。查阅模型文档或来源了解预处理细节。
+        *   **思路:** 确保输入数据符合预训练模型的预期格式和范围。
+    5.  **训练 (微调):**
+        *   **步骤:** 定义损失函数（通常是交叉熵）和优化器。将需要更新的参数传递给优化器（如果冻结了部分层，只传入 `requires_grad=True` 的参数）。
+            *   `optimizer = optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), lr=0.001, momentum=0.9)`。
+        *   **步骤:** 使用**较小的学习率**开始训练。因为预训练模型已经处于一个较好的状态，过大的学习率容易破坏预训练权重。可以尝试不同的学习率策略（如学习率衰减）。
+        *   **步骤:** 运行标准的训练循环。
+    *   **预期结果/验证方法:** 微调后的模型在目标任务上的性能通常远超从零开始训练的模型，尤其是在目标数据集较小的情况下。收敛速度通常也更快。对比微调模型和从零训练模型的测试准确率/损失。
+    *   **关键注意点:** 选择合适的预训练模型（源任务与目标任务的相关性）。数据预处理与预训练模型保持一致。学习率的选择（通常需要更小）。理解何时冻结层以及冻结哪些层。
 
 ---
 
