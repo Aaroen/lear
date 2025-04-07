@@ -1,4 +1,4 @@
-《动手学深度学习》(Dive into Deep Learning, D2L)的部分实践实现:
+本文件夹主要完成《动手学深度学习》(Dive into Deep Learning, D2L)的部分实践实现:
 
 **整体章节梳理**
 
