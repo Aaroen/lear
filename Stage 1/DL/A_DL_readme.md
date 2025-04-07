@@ -55,7 +55,7 @@
 14. **Generative Adversarial Networks (GANs):** (可能包含) **【进阶实践】**
 15. **Reinforcement Learning (RL):** (可能包含) **【进阶实践】**
 
-**核心适合实践部分**
+**核心实践部分**
 
 
 **实验 1: 基础数据操作与自动求导 (对应 D2L Ch 2)**
